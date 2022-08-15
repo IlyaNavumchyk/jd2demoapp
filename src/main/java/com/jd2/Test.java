@@ -10,7 +10,5 @@ public class Test {
 
         String s = RandomStringUtils.randomAlphabetic(10);
         System.out.println(s);
-
-        System.out.println("lol");
     }
 }
