@@ -1,5 +1,7 @@
 package com.jd2.controller;
 
+import com.jd2.repository.user.UserRepository;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,15 +22,20 @@ public class FrontController extends HttpServlet {
     }
 
     private void doRequest(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         RequestDispatcher dispatcher = req.getRequestDispatcher("/hello");
+
         if (dispatcher != null) {
             System.out.println("Forward will be done!");
 
-            /*req.setAttribute("user", "Slava");
+            int index = 0;
+
+            req.setAttribute("user", "Slava");
+            req.setAttribute("index", index);
 
             UserRepository userRepository = new UserRepository();
 
-            req.setAttribute("users", userRepository.findAll());*/
+            req.setAttribute("users", userRepository.findAll());
 
             dispatcher.forward(req, resp);
         }
