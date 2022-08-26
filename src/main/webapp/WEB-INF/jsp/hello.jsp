@@ -8,7 +8,20 @@
 </head>
 
 <style>
-    <%--    Add css for table, rows, column here--%>
+    table{
+        border: 5px solid red;
+        border-radius: 10px;
+        border-spacing: 2px 2px;
+    }
+    tr, td, th {
+        border: 2px solid black;
+    }
+    th {
+        background-color: yellow;
+    }
+    button {
+        background-color: aqua;
+    }
 </style>
 
 <body>
@@ -25,15 +38,15 @@
 <div>
     <table>
         <tr>
-            <td>User Id</td>
-            <td>User Name</td>
-            <td>User Surname</td>
-            <td>Birth date</td>
-            <td>Is Deleted</td>
-            <td>Created</td>
-            <td>Changed</td>
-            <td>Edit</td>
-            <td>Delete</td>
+            <th>User Id</th>
+            <th>User Name</th>
+            <th>User Surname</th>
+            <th>Birth date</th>
+            <th>Is Deleted</th>
+            <th>Created</th>
+            <th>Changed</th>
+            <th>Edit</th>
+            <th>Delete</th>
             <%--            <td>Weight</td>--%>
         </tr>
         <c:forEach var="user" items="${users}">
