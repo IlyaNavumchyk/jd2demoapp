@@ -3,6 +3,7 @@ package com.jd2;
 import com.jd2.domain.User;
 import com.jd2.listener.StartupApplicationListener;
 import com.jd2.repository.user.UserRepository;
+import com.jd2.util.DatabasePropertiesReader;
 
 import java.sql.Timestamp;
 import java.time.Clock;
@@ -15,13 +16,13 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) {
 
-        /*UserRepository userRepository = new UserRepository();
+        UserRepository userRepository = new UserRepository(new DatabasePropertiesReader());
 
-        List<User> all = userRepository.findAll();
+        /*List<User> all = userRepository.findAll();
 
         all.forEach(System.out::println);
 
-        System.out.println(userRepository.findByID(11L));
+        System.out.println(userRepository.findById(11L));
         System.out.println(userRepository.findOne(10L));
 
         Timestamp timestamp = new Timestamp(new Date().getTime());
@@ -47,9 +48,9 @@ public class Main {
 
         for (Map.Entry<String, Object> stringObjectEntry : userStats.entrySet()) {
             System.out.println(stringObjectEntry.getValue());
-        }
+        }*/
 
-        List<User> all = userRepository.find_user_by_name_and_surname("au", "eb");
-        all.forEach(System.out::println);*/
+        List<User> all = userRepository.find_user_by_name_and_surname("na", "eb");
+        all.forEach(System.out::println);
     }
 }

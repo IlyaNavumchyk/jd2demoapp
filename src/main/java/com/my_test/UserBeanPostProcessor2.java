@@ -9,12 +9,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 @Component
-public class UserBeanPostProcessor implements BeanPostProcessor {
+public class UserBeanPostProcessor2 implements BeanPostProcessor {
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) {
 
-        System.out.printf("\nIn %s postProcessBeforeInitialization #start\n", beanName);
+        System.out.printf("\n2In %s postProcessBeforeInitialization #start\n", beanName);
 
         Field[] declaredFields = bean.getClass().getDeclaredFields();
         for (Field declaredField : declaredFields) {
@@ -32,14 +32,14 @@ public class UserBeanPostProcessor implements BeanPostProcessor {
             System.out.println("ebat'");
         }
 
-        System.out.printf("In %s postProcessBeforeInitialization #stop\n", beanName);
+        System.out.printf("2In %s postProcessBeforeInitialization #stop\n", beanName);
         return bean;
     }
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
-        System.out.printf("\nIn %s postProcessAfterInitialization #start\n", beanName);
+        System.out.printf("\n2In %s postProcessAfterInitialization #start\n", beanName);
 
         Field[] declaredFields = bean.getClass().getDeclaredFields();
         for (Field declaredField : declaredFields) {
@@ -57,7 +57,7 @@ public class UserBeanPostProcessor implements BeanPostProcessor {
             System.out.println("ebat'");
         }
 
-        System.out.printf("In %s postProcessAfterInitialization #stop\n", beanName);
+        System.out.printf("2In %s postProcessAfterInitialization #stop\n", beanName);
 
         return bean;
     }

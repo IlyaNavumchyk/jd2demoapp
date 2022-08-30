@@ -9,7 +9,7 @@ public interface CRUDRepository<K, T> {
 
     int DEFAULT_FIND_ALL_OFFSET = 0;
 
-    T findByID(K id);
+    T findById(K id);
 
     Optional<T> findOne(K id);
 
@@ -21,5 +21,5 @@ public interface CRUDRepository<K, T> {
 
     T update(T object);
 
-    T delete(K id);
+    K delete(K id);
 }

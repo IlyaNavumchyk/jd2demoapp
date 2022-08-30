@@ -5,10 +5,6 @@ import com.jd2.exception.NoSuchEntityException;
 import com.jd2.util.DatabasePropertiesReader;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
@@ -38,8 +34,8 @@ public class UserRepository implements UserRepositoryInterface {
     private final DatabasePropertiesReader databasePropertiesReader;
 
     @Override
-    public User findByID(Long id) {
-        final String findByIdQuery = "select * from carshop.users where id = " + id + " and is_deleted = false";
+    public User findById(Long id) {
+        final String findByIdQuery = "select * from carshop.users where id = " + id;
 
         try (Connection connection = getConnection();
              Statement statement = connection.createStatement();
@@ -60,7 +56,7 @@ public class UserRepository implements UserRepositoryInterface {
 
     @Override
     public Optional<User> findOne(Long id) {
-        return Optional.of(findByID(id));
+        return Optional.of(findById(id));
     }
 
     public List<User> findAll() {
@@ -111,7 +107,7 @@ public class UserRepository implements UserRepositoryInterface {
             resultSet.next();
             long userLastInsertId = resultSet.getLong("last_id");
             resultSet.close();
-            return findByID(userLastInsertId);
+            return findById(userLastInsertId);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw new RuntimeException("SQL issues");
@@ -138,7 +134,7 @@ public class UserRepository implements UserRepositoryInterface {
 
             preparedStatement.executeUpdate();
 
-            return findByID(object.getId());
+            return findById(object.getId());
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw new RuntimeException("SQL issues");
@@ -146,7 +142,7 @@ public class UserRepository implements UserRepositoryInterface {
     }
 
     @Override
-    public User delete(Long id) {
+    public Long delete(Long id) {
 
         final String deleteQuery = "update carshop.users set is_deleted = ? where id = " + id;
 
@@ -157,10 +153,7 @@ public class UserRepository implements UserRepositoryInterface {
 
             preparedStatement.executeUpdate();
 
-            final String findUser = "select * from carshop.users where id = " + id;
-            ResultSet resultSet = connection.prepareStatement(findUser).executeQuery();
-            resultSet.next();
-            return userRowMapping(resultSet);
+            return id;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw new RuntimeException("SQL issues");
@@ -169,8 +162,7 @@ public class UserRepository implements UserRepositoryInterface {
 
     @Override
     public Map<String, Object> getUserStats(boolean isDeleted) {
-        final String callFunction =
-                "select carshop.get_users_stats(?)";
+        final String callFunction = "select carshop.get_users_stats(?)";
 
         Connection connection;
         PreparedStatement statement;
@@ -202,12 +194,12 @@ public class UserRepository implements UserRepositoryInterface {
              PreparedStatement statement = connection.prepareStatement(callFunction)) {
 
             statement.setString(1, name);
-            statement.setString(2, name);
+            statement.setString(2, surname);
 
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                result.add(findByID(resultSet.getLong(1)));
+                result.add(findById(resultSet.getLong(1)));
             }
             resultSet.close();
 
@@ -225,6 +217,7 @@ public class UserRepository implements UserRepositoryInterface {
     private Connection getConnection() throws SQLException {
         try {
             Class.forName(databasePropertiesReader.getDriverName());
+            //Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
             System.err.println("JDBC Driver Cannot be loaded!");
             throw new RuntimeException("JDBC Driver Cannot be loaded!");
@@ -239,6 +232,8 @@ public class UserRepository implements UserRepositoryInterface {
         String jdbcURL = StringUtils.join(url, port, dbName);
 
         return DriverManager.getConnection(jdbcURL, login, password);
+
+        //return DriverManager.getConnection("jdbc:postgresql://localhost:5432/jd2", "postgres", "root");
     }
 
     private User userRowMapping(ResultSet rs) throws SQLException {
