@@ -1,6 +1,7 @@
 package com.jd2.controller;
 
 import com.jd2.repository.user.UserRepository;
+import com.jd2.util.DatabasePropertiesReader;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,7 +34,7 @@ public class FrontController extends HttpServlet {
             req.setAttribute("user", "Slava");
             req.setAttribute("index", index);
 
-            UserRepository userRepository = new UserRepository();
+            UserRepository userRepository = new UserRepository(new DatabasePropertiesReader());
 
             req.setAttribute("users", userRepository.findAll());
 

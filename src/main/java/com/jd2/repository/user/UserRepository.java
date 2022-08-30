@@ -3,7 +3,13 @@ package com.jd2.repository.user;
 import com.jd2.domain.User;
 import com.jd2.exception.NoSuchEntityException;
 import com.jd2.util.DatabasePropertiesReader;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,21 +23,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.jd2.repository.user.UserTableColums.BIRTH_DATE;
-import static com.jd2.repository.user.UserTableColums.CHANGED;
-import static com.jd2.repository.user.UserTableColums.CREATED;
-import static com.jd2.repository.user.UserTableColums.ID;
-import static com.jd2.repository.user.UserTableColums.IS_DELETED;
-import static com.jd2.repository.user.UserTableColums.NAME;
-import static com.jd2.repository.user.UserTableColums.SURNAME;
-import static com.jd2.util.DatabasePropertiesReader.DATABASE_LOGIN;
-import static com.jd2.util.DatabasePropertiesReader.DATABASE_NAME;
-import static com.jd2.util.DatabasePropertiesReader.DATABASE_PASSWORD;
-import static com.jd2.util.DatabasePropertiesReader.DATABASE_PORT;
-import static com.jd2.util.DatabasePropertiesReader.DATABASE_URL;
-import static com.jd2.util.DatabasePropertiesReader.POSTRGES_DRIVER_NAME;
+import static com.jd2.repository.user.UserTableColumns.BIRTH_DATE;
+import static com.jd2.repository.user.UserTableColumns.CHANGED;
+import static com.jd2.repository.user.UserTableColumns.CREATED;
+import static com.jd2.repository.user.UserTableColumns.ID;
+import static com.jd2.repository.user.UserTableColumns.IS_DELETED;
+import static com.jd2.repository.user.UserTableColumns.NAME;
+import static com.jd2.repository.user.UserTableColumns.SURNAME;
 
+@Component
+@RequiredArgsConstructor
 public class UserRepository implements UserRepositoryInterface {
+
+    private final DatabasePropertiesReader databasePropertiesReader;
 
     @Override
     public User findByID(Long id) {
@@ -220,19 +224,17 @@ public class UserRepository implements UserRepositoryInterface {
 
     private Connection getConnection() throws SQLException {
         try {
-            String driver = DatabasePropertiesReader.getProperty(POSTRGES_DRIVER_NAME);
-
-            Class.forName(driver);
+            Class.forName(databasePropertiesReader.getDriverName());
         } catch (ClassNotFoundException e) {
             System.err.println("JDBC Driver Cannot be loaded!");
             throw new RuntimeException("JDBC Driver Cannot be loaded!");
         }
 
-        String url = DatabasePropertiesReader.getProperty(DATABASE_URL);
-        String port = DatabasePropertiesReader.getProperty(DATABASE_PORT);
-        String dbName = DatabasePropertiesReader.getProperty(DATABASE_NAME);
-        String login = DatabasePropertiesReader.getProperty(DATABASE_LOGIN);
-        String password = DatabasePropertiesReader.getProperty(DATABASE_PASSWORD);
+        String url = databasePropertiesReader.getUrl();
+        String port = databasePropertiesReader.getPort();
+        String dbName = databasePropertiesReader.getName();
+        String login = databasePropertiesReader.getLogin();
+        String password = databasePropertiesReader.getPassword();
 
         String jdbcURL = StringUtils.join(url, port, dbName);
 
@@ -252,7 +254,7 @@ public class UserRepository implements UserRepositoryInterface {
 
         return user;*/
 
-        User user =  User.builder()
+        return User.builder()
                 .id(rs.getLong(ID))
                 .userName(rs.getString(NAME))
                 .surname(rs.getString(SURNAME))
@@ -261,7 +263,5 @@ public class UserRepository implements UserRepositoryInterface {
                 .creationDate(rs.getTimestamp(CREATED))
                 .modificationDate(rs.getTimestamp(CHANGED))
                 .build();
-
-        return user;
     }
 }

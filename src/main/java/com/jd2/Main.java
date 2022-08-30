@@ -1,9 +1,13 @@
 package com.jd2;
 
 import com.jd2.domain.User;
+import com.jd2.listener.StartupApplicationListener;
 import com.jd2.repository.user.UserRepository;
 
 import java.sql.Timestamp;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -11,13 +15,13 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) {
 
-        UserRepository userRepository = new UserRepository();
+        /*UserRepository userRepository = new UserRepository();
 
         List<User> all = userRepository.findAll();
 
         all.forEach(System.out::println);
 
-        /*System.out.println(userRepository.findByID(11L));
+        System.out.println(userRepository.findByID(11L));
         System.out.println(userRepository.findOne(10L));
 
         Timestamp timestamp = new Timestamp(new Date().getTime());
@@ -36,16 +40,16 @@ public class Main {
 
         List<User> alll = userRepository.findAll();
 
-        alll.forEach(System.out::println);*/
+        alll.forEach(System.out::println);
 
-        /*Map<String, Object> userStats =
+        Map<String, Object> userStats =
                 userRepository.getUserStats(true);
 
         for (Map.Entry<String, Object> stringObjectEntry : userStats.entrySet()) {
             System.out.println(stringObjectEntry.getValue());
-        }*/
+        }
 
-        /*List<User> all = userRepository.find_user_by_name_and_surname("au", "eb");
+        List<User> all = userRepository.find_user_by_name_and_surname("au", "eb");
         all.forEach(System.out::println);*/
     }
 }

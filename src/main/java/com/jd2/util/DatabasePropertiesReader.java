@@ -1,17 +1,34 @@
 package com.jd2.util;
 
-import java.util.ResourceBundle;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
+@Component
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@PropertySource("classpath:database.properties")
 public class DatabasePropertiesReader {
 
-    public static final String POSTRGES_DRIVER_NAME = "POSTRGES_DRIVER_NAME";
-    public static final String DATABASE_URL = "DATABASE_URL";
-    public static final String DATABASE_PORT = "DATABASE_PORT";
-    public static final String DATABASE_NAME = "DATABASE_NAME";
-    public static final String DATABASE_LOGIN = "DATABASE_LOGIN";
-    public static final String DATABASE_PASSWORD = "DATABASE_PASSWORD";
+    @Value("${POSTGRES_DRIVER_NAME}")
+    private String driverName;
 
-    public static String getProperty(String key) {
-        return ResourceBundle.getBundle("database").getString(key);
-    }
+    @Value("${DATABASE_URL}")
+    private String url;
+
+    @Value("${DATABASE_PORT}")
+    private String port;
+
+    @Value("${DATABASE_NAME}")
+    private String name;
+
+    @Value("${DATABASE_LOGIN}")
+    private String login;
+
+    @Value("${DATABASE_PASSWORD}")
+    private String password;
 }

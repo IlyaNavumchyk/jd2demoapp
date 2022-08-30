@@ -1,6 +1,6 @@
 package com.jd2.repository.user;
 
-public interface UserTableColums {
+public interface UserTableColumns {
 
     String ID = "id";
 
@@ -13,8 +13,6 @@ public interface UserTableColums {
     String CREATED = "creation_date";
 
     String CHANGED = "modification_date";
-
-    String WEIGHT = "weight";
 
     String IS_DELETED = "is_deleted";
 }
