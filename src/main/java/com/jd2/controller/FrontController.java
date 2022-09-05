@@ -1,7 +1,7 @@
 package com.jd2.controller;
 
 import com.jd2.repository.user.UserRepository;
-import com.jd2.util.DatabasePropertiesReader;
+import com.jd2.configuration.DatabasePropertiesReader;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

@@ -1,17 +1,8 @@
 package com.jd2;
 
 import com.jd2.domain.User;
-import com.jd2.listener.StartupApplicationListener;
 import com.jd2.repository.user.UserRepository;
-import com.jd2.util.DatabasePropertiesReader;
-
-import java.sql.Timestamp;
-import java.time.Clock;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import com.jd2.configuration.DatabasePropertiesReader;
 
 public class Main {
     public static void main(String[] args) {
@@ -50,7 +41,9 @@ public class Main {
             System.out.println(stringObjectEntry.getValue());
         }*/
 
-        List<User> all = userRepository.find_user_by_name_and_surname("na", "eb");
-        all.forEach(System.out::println);
+        /*List<User> all = userRepository.find_user_by_name_and_surname("na", "eb");
+        all.forEach(System.out::println);*/
+
+        User user = userRepository.findById(150L);
     }
 }

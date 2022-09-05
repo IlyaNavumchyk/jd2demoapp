@@ -2,9 +2,9 @@ package com.jd2.repository.user;
 
 import com.jd2.domain.User;
 import com.jd2.exception.NoSuchEntityException;
-import com.jd2.util.DatabasePropertiesReader;
+import com.jd2.configuration.DatabasePropertiesReader;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
@@ -26,10 +26,13 @@ import static com.jd2.repository.user.UserTableColumns.ID;
 import static com.jd2.repository.user.UserTableColumns.IS_DELETED;
 import static com.jd2.repository.user.UserTableColumns.NAME;
 import static com.jd2.repository.user.UserTableColumns.SURNAME;
+import static com.jd2.util.UUIDGenerator.generateUUID;
 
 @Component
 @RequiredArgsConstructor
 public class UserRepository implements UserRepositoryInterface {
+
+    private static final Logger LOG = Logger.getLogger(UserRepository.class);
 
     private final DatabasePropertiesReader databasePropertiesReader;
 
@@ -45,12 +48,12 @@ public class UserRepository implements UserRepositoryInterface {
             if (hasRow) {
                 return userRowMapping(resultSet);
             } else {
-                throw new NoSuchEntityException("Entity User with id " + id + " does not exist", 404);
+                throw new NoSuchEntityException("Entity User with id " + id + " does not exist", 404, generateUUID());
             }
 
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
-            throw new RuntimeException("SQL issues");
+            LOG.error("DB connection process issues", e);
+            throw new RuntimeException("DB connection process issues");
         }
     }
 
@@ -206,7 +209,8 @@ public class UserRepository implements UserRepositoryInterface {
             if (!result.isEmpty()) {
                 return result;
             } else {
-                throw new NoSuchEntityException("Entity User with name " + name + " and surname " + surname + " does not exist", 404);
+                throw new NoSuchEntityException("Entity User with name " + name + " and surname " + surname +
+                        " does not exist", 404, generateUUID());
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -216,14 +220,14 @@ public class UserRepository implements UserRepositoryInterface {
 
     private Connection getConnection() throws SQLException {
         try {
-            Class.forName(databasePropertiesReader.getDriverName());
-            //Class.forName("org.postgresql.Driver");
+            //Class.forName(databasePropertiesReader.getDriverName());
+            Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
             System.err.println("JDBC Driver Cannot be loaded!");
             throw new RuntimeException("JDBC Driver Cannot be loaded!");
         }
 
-        String url = databasePropertiesReader.getUrl();
+        /*String url = databasePropertiesReader.getUrl();
         String port = databasePropertiesReader.getPort();
         String dbName = databasePropertiesReader.getName();
         String login = databasePropertiesReader.getLogin();
@@ -231,9 +235,9 @@ public class UserRepository implements UserRepositoryInterface {
 
         String jdbcURL = StringUtils.join(url, port, dbName);
 
-        return DriverManager.getConnection(jdbcURL, login, password);
+        return DriverManager.getConnection(jdbcURL, login, password);*/
 
-        //return DriverManager.getConnection("jdbc:postgresql://localhost:5432/jd2", "postgres", "root");
+        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/jd2", "postgres", "root");
     }
 
     private User userRowMapping(ResultSet rs) throws SQLException {

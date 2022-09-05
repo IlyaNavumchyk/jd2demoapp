@@ -15,7 +15,7 @@ import javax.annotation.PreDestroy;
 @Getter
 @Setter
 @AllArgsConstructor
-@PropertySource("classpath:myProperty.properties")
+@PropertySource("myProperty.properties")
 public class User {
 
     @PropertyAnnotation(property = "LOL")
