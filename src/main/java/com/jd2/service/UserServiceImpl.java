@@ -54,4 +54,9 @@ public class UserServiceImpl implements UserService {
     public List<User> find_user_by_name_and_surname(String name, String surname) {
         return userRepository.find_user_by_name_and_surname(name, surname);
     }
+
+    @Override
+    public List<User> search(int limit, int offset) {
+        return userRepository.findAll(limit, offset);
+    }
 }

@@ -43,6 +43,11 @@ public class NoSuchEntityException extends RuntimeException{
     }
 
     @Override
+    public String getMessage() {
+        return toString();
+    }
+
+    @Override
     public String toString() {
         return "NoSuchEntityException{" +
                 "customMassage='" + customMassage + '\'' +

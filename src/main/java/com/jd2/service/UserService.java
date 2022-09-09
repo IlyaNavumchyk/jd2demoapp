@@ -25,4 +25,6 @@ public interface UserService {
     Map<String, Object> getUserStats(boolean isDeleted);
 
     List<User> find_user_by_name_and_surname(String name, String surname);
+
+    List<User> search(int limit, int offset);
 }

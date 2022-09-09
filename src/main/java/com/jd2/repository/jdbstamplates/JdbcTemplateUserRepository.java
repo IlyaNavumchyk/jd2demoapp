@@ -1,6 +1,7 @@
 package com.jd2.repository.jdbstamplates;
 
 import com.jd2.domain.User;
+import com.jd2.exception.NoSuchEntityException;
 import com.jd2.repository.user.UserRepositoryInterface;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -15,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.jd2.util.UUIDGenerator.generateUUID;
+
 @Repository
 @RequiredArgsConstructor
 @Primary
@@ -28,7 +31,13 @@ public class JdbcTemplateUserRepository implements UserRepositoryInterface {
 
     @Override
     public User findById(Long id) {
-        return jdbcTemplate.queryForObject("select * from carshop.users where id = " + id, userRowMapper);
+        try {
+
+            return jdbcTemplate.queryForObject("select * from carshop.users where id = " + id, userRowMapper);
+
+        } catch (Exception e) {
+            throw new NoSuchEntityException("Entity User with id " + id + " does not exist", 404, generateUUID());
+        }
     }
 
     @Override
@@ -43,14 +52,14 @@ public class JdbcTemplateUserRepository implements UserRepositoryInterface {
 
     @Override
     public List<User> findAll(int limit, int offset) {
-        return jdbcTemplate.query("select * from carshop.users limit " + limit + " offset " + offset, userRowMapper);
+        return jdbcTemplate.query("select * from carshop.users order by id limit " + limit + " offset " + offset, userRowMapper);
     }
 
     @Override
     public User create(User object) {
         final String insertQuery =
-                "insert into carshop.users (user_name, surname, birth, is_deleted, creation_date, modification_date, weight) " +
-                        " values (:userName, :surname, :birth, :isDeleted, :creationDate, :modificationDate, :weight);";
+                "insert into carshop.users (user_name, surname, birth, is_deleted, creation_date, modification_date) " +
+                        " values (:userName, :surname, :birth, :isDeleted, :creationDate, :modificationDate);";
 
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue("userName", object.getUserName());
