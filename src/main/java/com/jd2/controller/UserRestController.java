@@ -27,7 +27,6 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/rest/users")
-@EnableWebMvc
 public class UserRestController {
 
     private final UserService userService;

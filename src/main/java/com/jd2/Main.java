@@ -2,12 +2,11 @@ package com.jd2;
 
 import com.jd2.domain.User;
 import com.jd2.repository.user.UserRepository;
-import com.jd2.configuration.DatabasePropertiesReader;
 
 public class Main {
     public static void main(String[] args) {
 
-        UserRepository userRepository = new UserRepository(new DatabasePropertiesReader());
+        UserRepository userRepository = new UserRepository();
 
         /*List<User> all = userRepository.findAll();
 

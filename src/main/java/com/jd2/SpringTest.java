@@ -1,7 +1,6 @@
 package com.jd2;
 
 import com.jd2.aop.CustomAspect;
-import com.jd2.configuration.ApplicationContextStarter;
 import com.jd2.domain.User;
 import com.jd2.service.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -14,7 +13,7 @@ public class SpringTest {
     public static void main(String[] args) {
 
         AnnotationConfigApplicationContext applicationContext
-                = new AnnotationConfigApplicationContext(ApplicationContextStarter.class);
+                = new AnnotationConfigApplicationContext("com.jd2");
 
         UserService bean = applicationContext.getBean(UserService.class);
 
@@ -49,6 +48,6 @@ public class SpringTest {
         System.out.println("\nMethod usage statistics for class JdbcTemplateUserRepository:");
         for(Map.Entry<String, Integer> entry : CustomAspect.methodUsageStatistics.entrySet()) {
             System.out.println(entry);
-        };
+        }
     }
 }

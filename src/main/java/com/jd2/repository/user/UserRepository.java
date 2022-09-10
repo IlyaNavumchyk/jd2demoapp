@@ -2,7 +2,6 @@ package com.jd2.repository.user;
 
 import com.jd2.domain.User;
 import com.jd2.exception.NoSuchEntityException;
-import com.jd2.configuration.DatabasePropertiesReader;
 import lombok.RequiredArgsConstructor;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -33,8 +32,6 @@ import static com.jd2.util.UUIDGenerator.generateUUID;
 public class UserRepository implements UserRepositoryInterface {
 
     private static final Logger LOG = Logger.getLogger(UserRepository.class);
-
-    private final DatabasePropertiesReader databasePropertiesReader;
 
     @Override
     public User findById(Long id) {
