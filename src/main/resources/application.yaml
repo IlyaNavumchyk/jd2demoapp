@@ -3,15 +3,17 @@ spring:
     url: jdbc:postgresql://localhost:5432/jd2
     username: postgres
     password: root
-    hikari:
-      maximum-pool-size: 10
+#    hikari:
+#      maximum-pool-size: 10
 server:
   port: 8080
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,env
+        include: health, info, env, shutdown
   endpoint:
     health:
       show-details: always
+    shutdown:
+      enabled: true
