@@ -61,7 +61,7 @@ public class JdbcTemplateUserRepository implements UserRepositoryInterface {
                 "insert into carshop.users (user_name, surname, birth, is_deleted, " +
                         "creation_date, modification_date, user_login, user_password) " +
                         " values (:userName, :surname, :birth, :isDeleted, :creationDate, :modificationDate, " +
-                        ":userLogin, userPassword);";
+                        ":userLogin, :userPassword);";
 
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue("userName", object.getUserName());
@@ -89,17 +89,20 @@ public class JdbcTemplateUserRepository implements UserRepositoryInterface {
         final String updateQuery =
                 "update carshop.users set user_name = :userName, surname = :surname, birth = :birth, " +
                         "is_deleted = :isDeleted, creation_date = :creationDate, " +
-                        "modification_date = :modificationDate where id = :id";
+                        "modification_date = :modificationDate where id = :id, " +
+                        "user_login = :userLogin, user_password = :userPassword";
 
         try {
             MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+            mapSqlParameterSource.addValue("id", object.getId());
             mapSqlParameterSource.addValue("userName", object.getUserName());
             mapSqlParameterSource.addValue("surname", object.getSurname());
             mapSqlParameterSource.addValue("birth", object.getBirth());
             mapSqlParameterSource.addValue("isDeleted", object.getIsDeleted());
             mapSqlParameterSource.addValue("creationDate", object.getCreationDate());
             mapSqlParameterSource.addValue("modificationDate", object.getModificationDate());
-            mapSqlParameterSource.addValue("id", object.getId());
+            mapSqlParameterSource.addValue("userLogin", object.getUserLogin());
+            mapSqlParameterSource.addValue("userPassword", object.getUserPassword());
 
             namedParameterJdbcTemplate.update(updateQuery, mapSqlParameterSource);
 

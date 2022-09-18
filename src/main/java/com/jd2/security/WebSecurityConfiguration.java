@@ -22,16 +22,16 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService userProvider;
+    private final UserDetailsService userDetailsService;
 
-    private final JwtTokenHelper tokenUtils;
+    private final JwtTokenHelper jwtTokenHelper;
 
     private final NoOpPasswordEncoder noOpPasswordEncoder;
 
     @Autowired
     public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
-                .userDetailsService(userProvider)
+                .userDetailsService(userDetailsService)
                 .passwordEncoder(noOpPasswordEncoder);
     }
 
@@ -68,6 +68,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration/**").permitAll()
                 .antMatchers("/authentication/**").permitAll()
                 .antMatchers("/auth/**").permitAll()
+                .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/rest/**").permitAll()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN", "MODERATOR")
                 .anyRequest()

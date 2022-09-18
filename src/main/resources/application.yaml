@@ -25,4 +25,4 @@ management:
 
 jwt:
   secret: qwepuisdhfaksdjflsdfn12321___**
-  expiration: 600000
+  expiration: 600

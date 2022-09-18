@@ -24,7 +24,7 @@ public class AuthenticationController {
 
     private final JwtTokenHelper jwtTokenHelper;
 
-    private final UserDetailsService userProvider;
+    private final UserDetailsService authenticationProvider;
 
     //    @ApiOperation(value = "Login user in system", notes = "Return Auth-Token with user login")
 //    @ApiResponses({
@@ -36,7 +36,6 @@ public class AuthenticationController {
     public ResponseEntity<AuthResponse> loginUser(@RequestBody AuthRequest request) {
 
         /*Check login and password*/
-        System.out.println("Check login and password");
         Authentication authenticate = null;
         try {
             authenticate = authenticationManager.authenticate(
@@ -49,26 +48,15 @@ public class AuthenticationController {
             e.printStackTrace();
         }
 
-        System.out.println("set authentication");
         SecurityContextHolder.getContext().setAuthentication(authenticate);
 
         /*Generate token with answer to user*/
-        System.out.println("Generate token with answer to user");
         return ResponseEntity.ok(
                 AuthResponse
                         .builder()
                         .username(request.getLogin())
-                        .token(jwtTokenHelper.generateToken(userProvider.loadUserByUsername(request.getLogin())))
+                        .token(jwtTokenHelper.generateToken(authenticationProvider.loadUserByUsername(request.getLogin())))
                         .build()
         );
     }
-
-    //localhost:8080/authentication POST
-/*
-    {
-
-    "login": "login",
-    "password": "password"
-
-   }   -> new AuthRequest(login, password) */
 }

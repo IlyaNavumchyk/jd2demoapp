@@ -1,9 +1,15 @@
 package com.jd2;
 
+import com.jd2.domain.Role;
+import com.jd2.repository.role.RoleRepositoryInterface;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.util.Date;
+import java.util.List;
 
 @SpringBootApplication(scanBasePackages = "com.jd2")
 @EnableAspectJAutoProxy(proxyTargetClass = true)
