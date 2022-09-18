@@ -50,8 +50,9 @@ public class DefaultExceptionHandler {
                 .builder()
                 .clazz(e.getClass().getSimpleName())
                 .exceptionId(generateUUID())
-                .errorMessage("General error")
+                .errorMessage(e.getMessage() + " General error")
                 .errorCode(1)
+                .stackTrace(ErrorContainer.getStackTrace(e))
                 .build();
 
         return new ResponseEntity<>(Collections.singletonMap("error", error), HttpStatus.INTERNAL_SERVER_ERROR);

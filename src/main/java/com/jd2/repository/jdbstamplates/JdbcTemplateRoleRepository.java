@@ -102,7 +102,7 @@ public class JdbcTemplateRoleRepository implements RoleRepositoryInterface {
     @Override
     public List<Role> findRolesByUserId(Long userId) {
         return jdbcTemplate.query("select * from carshop.roles " +
-                "inner join carshop.l_user_role lur on where roles.id = lru.role_id " +
-                "where lru.user_id = " + userId, roleRowMapper);
+                "inner join carshop.l_user_role lur on roles.id = lur.role_id " +
+                "where lur.user_id = " + userId, roleRowMapper);
     }
 }
