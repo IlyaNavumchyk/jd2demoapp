@@ -19,13 +19,5 @@ public class ErrorContainer {
 
     private int errorCode;
 
-    private String stackTrace;
-
-    public static String getStackTrace (Throwable e) {
-        StringBuilder sb = new StringBuilder();
-        for (StackTraceElement stackTraceElement : e.getStackTrace()) {
-            sb.append(stackTraceElement.toString()).append('\n');
-        }
-        return sb.toString();
-    }
+    private StackTraceElement[] stackTrace;
 }

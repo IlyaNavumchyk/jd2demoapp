@@ -6,26 +6,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Collections;
 
 import static com.jd2.util.UUIDGenerator.generateUUID;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class DefaultExceptionHandler {
 
     @ExceptionHandler({NoSuchEntityException.class, EmptyResultDataAccessException.class})
-    public ResponseEntity<Object> handleEntityNotFoundException(Exception e) {
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorContainer handleEntityNotFoundException(Exception e) {
 
-        ErrorContainer error = ErrorContainer
+        return ErrorContainer
                 .builder()
                 .exceptionId(generateUUID())
                 .errorMessage(e.getMessage())
                 .errorCode(2)
                 .clazz(e.getClass().getSimpleName())
                 .build();
-
-        return new ResponseEntity<>(Collections.singletonMap("error", error), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(NumberFormatException.class)
@@ -37,7 +38,7 @@ public class DefaultExceptionHandler {
                 .exceptionId(generateUUID())
                 .errorMessage(e.getMessage())
                 .errorCode(3)
-                .stackTrace(ErrorContainer.getStackTrace(e))
+                .stackTrace(e.getStackTrace())
                 .build();
 
         return new ResponseEntity<>(Collections.singletonMap("error", error), HttpStatus.BAD_REQUEST);
@@ -52,7 +53,7 @@ public class DefaultExceptionHandler {
                 .exceptionId(generateUUID())
                 .errorMessage(e.getMessage() + " General error")
                 .errorCode(1)
-                .stackTrace(ErrorContainer.getStackTrace(e))
+                .stackTrace(e.getStackTrace())
                 .build();
 
         return new ResponseEntity<>(Collections.singletonMap("error", error), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -9,7 +9,6 @@ import lombok.Setter;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.sql.ConnectionBuilder;
 import java.sql.Timestamp;
 
 @Setter
@@ -29,6 +28,7 @@ public class User {
     private Timestamp modificationDate;
     private String userLogin;
     private String userPassword;
+
     @Override
     public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);

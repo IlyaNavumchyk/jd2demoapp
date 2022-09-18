@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -84,16 +83,9 @@ public class UserMVCController {
         User user1 = userService.create(user);
 
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("id", user.getId());
-        modelAndView.addObject("user", user);
+        modelAndView.addObject("id", user1.getId());
+        modelAndView.addObject("user", user1);
         modelAndView.setViewName("user");
-
-        List<User> users = userService.findAll();
-
-       /* ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("user", "Slava");
-        modelAndView.addObject("users", users);
-        modelAndView.setViewName("users");*/
 
         return modelAndView;
     }
