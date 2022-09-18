@@ -58,8 +58,10 @@ public class JdbcTemplateUserRepository implements UserRepositoryInterface {
     @Override
     public User create(User object) {
         final String insertQuery =
-                "insert into carshop.users (user_name, surname, birth, is_deleted, creation_date, modification_date) " +
-                        " values (:userName, :surname, :birth, :isDeleted, :creationDate, :modificationDate);";
+                "insert into carshop.users (user_name, surname, birth, is_deleted, " +
+                        "creation_date, modification_date, user_login, user_password) " +
+                        " values (:userName, :surname, :birth, :isDeleted, :creationDate, :modificationDate, " +
+                        ":userLogin, userPassword);";
 
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         mapSqlParameterSource.addValue("userName", object.getUserName());
@@ -68,6 +70,8 @@ public class JdbcTemplateUserRepository implements UserRepositoryInterface {
         mapSqlParameterSource.addValue("isDeleted", object.getIsDeleted());
         mapSqlParameterSource.addValue("creationDate", object.getCreationDate());
         mapSqlParameterSource.addValue("modificationDate", object.getModificationDate());
+        mapSqlParameterSource.addValue("userLogin", object.getUserLogin());
+        mapSqlParameterSource.addValue("userPassword", object.getUserPassword());
 
         namedParameterJdbcTemplate.update(insertQuery, mapSqlParameterSource);
 
@@ -155,5 +159,16 @@ public class JdbcTemplateUserRepository implements UserRepositoryInterface {
             e.printStackTrace();
         }
         return list;
+    }
+
+    @Override
+    public Optional<User> findByLogin(String login) {
+
+        final String searchByLoginQuery = "select * from carshop.users where user_login = :login";
+
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+        mapSqlParameterSource.addValue("login", login);
+
+        return Optional.of(namedParameterJdbcTemplate.queryForObject(searchByLoginQuery, mapSqlParameterSource, userRowMapper));
     }
 }

@@ -7,6 +7,9 @@ spring:
 #      maximum-pool-size: 10
 server:
   port: 8080
+
+---
+
 management:
   endpoints:
     web:
@@ -17,3 +20,9 @@ management:
       show-details: always
     shutdown:
       enabled: true
+
+---
+
+jwt:
+  secret: qwepuisdhfaksdjflsdfn12321___**
+  expiration: 600000
