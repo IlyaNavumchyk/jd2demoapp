@@ -26,31 +26,26 @@ public class AuthenticationController {
 
     private final UserDetailsService authenticationProvider;
 
-    //    @ApiOperation(value = "Login user in system", notes = "Return Auth-Token with user login")
-//    @ApiResponses({
-//            @ApiResponse(code = 200, message = "Successful authorization"),
-//            @ApiResponse(code = 400, message = "Request error"),
-//            @ApiResponse(code = 500, message = "Server error")
-//    })
+    /*    @ApiOperation(value = "Login user in system", notes = "Return Auth-Token with user login")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Successful authorization"),
+            @ApiResponse(code = 400, message = "Request error"),
+            @ApiResponse(code = 500, message = "Server error")
+    })*/
+
     @PostMapping
-    public ResponseEntity<AuthResponse> loginUser(@RequestBody AuthRequest request) {
+    public ResponseEntity<AuthResponse> loginUser(@RequestBody AuthRequest request) throws AuthenticationException {
 
         /*Check login and password*/
-        Authentication authenticate = null;
-        try {
-            authenticate = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getLogin(),
-                            request.getPassword()
-                    )
-            );
-        } catch (AuthenticationException e) {
-            e.printStackTrace();
-        }
+        Authentication authenticate = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getLogin(),
+                        request.getPassword()
+                )
+        );
 
         SecurityContextHolder.getContext().setAuthentication(authenticate);
 
-        /*Generate token with answer to user*/
         return ResponseEntity.ok(
                 AuthResponse
                         .builder()

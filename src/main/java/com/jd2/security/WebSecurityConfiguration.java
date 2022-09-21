@@ -35,12 +35,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(noOpPasswordEncoder);
     }
 
-//    @Bean
-//    public AuthenticationTokenFilter authenticationTokenFilterBean(AuthenticationManager authenticationManager) throws Exception {
-//        AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter(tokenUtils, userDetailsService);
-//        authenticationTokenFilter.setAuthenticationManager(authenticationManager);
-//        return authenticationTokenFilter;
-//    }
+    /*@Bean
+    public AuthenticationTokenFilter authenticationTokenFilterBean(AuthenticationManager authenticationManager) throws Exception {
+        AuthenticationTokenFilter authenticationTokenFilter = new AuthenticationTokenFilter(tokenUtils, userDetailsService);
+        authenticationTokenFilter.setAuthenticationManager(authenticationManager);
+        return authenticationTokenFilter;
+    }*/
 
     @Bean
     @Override
@@ -59,7 +59,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                /*For swagger access only*/
+//                For swagger access only
 //                .antMatchers("/v2/api-docs", "/configuration/ui/**", "/swagger-resources/**", "/configuration/security/**", "/swagger-ui.html", "/webjars/**").permitAll()
 //                .antMatchers("/actuator/**").permitAll()
 //                .antMatchers(HttpMethod.GET, "/swagger-ui.html#").permitAll()
