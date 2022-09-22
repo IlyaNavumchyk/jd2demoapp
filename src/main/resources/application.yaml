@@ -3,8 +3,19 @@ spring:
     url: jdbc:postgresql://localhost:5432/jd2
     username: postgres
     password: root
-#    hikari:
-#      maximum-pool-size: 10
+  hikari:
+    maximum-pool-size: 10
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    baseline-description: Flyway Scripts
+    locations: classpath:/migration
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    url: ${spring.datasource.url}
+    default-schema: carshop
+    out-of-order: true
+    ignore-migration-patterns: '*:ignored'
 server:
   port: 8080
 
